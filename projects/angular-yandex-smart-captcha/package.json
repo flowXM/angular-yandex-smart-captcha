@@ -13,5 +13,6 @@
     "tslib": "^2.3.0"
   },
   "license": "MIT",
-  "sideEffects": false
+  "sideEffects": false,
+  "private": false
 }

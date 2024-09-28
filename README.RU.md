@@ -3,40 +3,71 @@
 [![en](https://img.shields.io/badge/english-blue?style=for-the-badge)](README.md)
 [![ru](https://img.shields.io/badge/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-red?style=for-the-badge)](README.RU.md)
 
-Добавляет компонент Yandex SmartCaptcha в приложение Angular
+Эта библиотека добавляет компонент Yandex SmartCaptcha в ваше Angular приложение, обеспечивая простой способ интеграции CAPTCHA для защиты ваших форм и других взаимодействий с пользователями.
 
 ## Использование
 
+Для использования Yandex SmartCaptcha в шаблоне вставьте компонент в ваш HTML-код и укажите необходимые свойства:
 ```html
-<yandex-smart-captcha [clientKey]="..."></yandex-smart-captcha>
+<yandex-smart-captcha [clientKey]="yourClientKey"></yandex-smart-captcha>
+```
+Замените `yourClientKey` на ваш действительный [клиентский ключ](https://yandex.cloud/ru/docs/smartcaptcha/concepts/keys).
+
+## Пример
+
+```html
+<form (ngSubmit)="onSubmit()">
+  <yandex-smart-captcha 
+    [clientKey]="yourClientKey" 
+    [language]="'ru'"
+    (onSuccess)="onCaptchaSuccess($event)">
+  </yandex-smart-captcha>
+  <button type="submit">Отправить</button>
+</form>
+```
+
+```typescript
+onCaptchaSuccess(token: string) {
+  console.log('CAPTCHA успешно пройдена:', token);
+  // Обработка токена (например, отправка на сервер для валидации)
+}
 ```
 
 ## API
 
-> Вы обязаны уведомлять пользователей о том, что их данные обрабатывает SmartCaptcha. Если вы скрываете [блок с уведомлением](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice), сообщите пользователям иным способом о том, что SmartCaptcha обрабатывает их данные.
+> Важно проинформировать пользователей о том, что их данные обрабатываются SmartCaptcha. Если вы скрываете [уведомление о обработке данных](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice), вы должны найти альтернативный способ уведомления пользователей.
 
-| Свойство               | Описание                                                                                                                                                | Тип                                                                                               | Значение по умолчанию       | Наличие     |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
-| `[clientKey]`         | [Ключ клиентской части](https://yandex.cloud/ru/docs/smartcaptcha/concepts/keys)                                                                        | `string`                                                                                          | Отсутствует                 | Обязательно |
-| `[language]`           | Язык виджета                                                                                                                                            | `'ru' \| 'en' \| 'be' \| 'kk' \| 'tt' \| 'uk' \| 'uz' \| 'tr'`                                    | `window.navigator.language` | -           |
-| `[test]`               | Включение работы капчи в режиме тестирования. Пользователь всегда будет получать задание. Используйте это свойство только для отладки и тестирования.   | `boolean`                                                                                         | `false`                     | -           |
-| `[webview]`            | Запуск капчи в **WebView**. Используется для повышения точности оценки пользователей при добавлении капчи в мобильные приложения с помощью **WebView**. | `boolean`                                                                                         | `false`                     | -           |
-| `[invisible]`          | [Невидимая капча](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha)                                                                 | `boolean`                                                                                         | `false`                     | -           |
-| `[shieldPosition]`     | Расположение [блока](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice) с уведомлением об обработке данных.   | `'top-left' \| 'center-left' \| 'bottom-left' \| 'top-right' \| 'center-right' \| 'bottom-right'` | `center-right`           | -           |
-| `[hideShield]`         | Скрыть [блок](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice) с уведомлением об обработке данных.          | `boolean`                                                                                         | `false`                     | -           |
-| `(onCallback)`         | Функция-обработчик                                                                                                                                      | `EventEmitter<string>`                                                                            | Отсутствует                 | -           |
-| `(onChallengeVisible)` | Открытие всплывающего окна с заданием                                                                                                                   | `EventEmitter<void>`                                                                              | Отсутствует                 | -           |
-| `(onChallengeHidden)`  | Закрытие всплывающего окна с заданием                                                                                                                   | `EventEmitter<void>`                                                                              | Отсутствует                 | -           |
-| `(onNetworkError)`     | Возникла сетевая ошибка                                                                                                                                 | `EventEmitter<void>`                                                                              | Отсутствует                 | -           |
-| `(onJavaScriptError)`  | Возникла критическая ошибка JS                                                                                                                          | `EventEmitter<CaptchaError>`                                                                      | Отсутствует                 | -           |
-| `(onSuccess)`          | Успешная валидация пользователя, возвращается токен для проверки достоверности на стороне сервера                                                       | `EventEmitter<string>`                                                                            | Отсутствует                 | -           |
-| `(onTokenExpired)`     | Токен прохождения проверки стал не валидным                                                                                                             | `EventEmitter<void>`                                                                              | Отсутствует                 | -           |
+### Свойства (Input Properties)
+
+| Свойство             | Описание                                                                                                                                                                                                  | Тип                                                                                              | Значение по умолчанию       | Требуется   |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------- | ----------- |
+| `[clientKey]`        | [Клиентский ключ](https://yandex.cloud/ru/docs/smartcaptcha/concepts/keys), необходимый для запуска CAPTCHA.                                                                                             | `string`                                                                                          | -                           | Да          |
+| `[language]`         | Язык интерфейса виджета.                                                                                                                                                                                   | `'ru' \| 'en' \| 'be' \| 'kk' \| 'tt' \| 'uk' \| 'uz' \| 'tr'`                                    | `window.navigator.language` | Опционально |
+| `[test]`             | Если `true`, CAPTCHA работает в тестовом режиме и всегда показывает проверку. Используйте это свойство только для отладки и тестирования.                                                                  | `boolean`                                                                                         | `false`                     | Опционально |
+| `[webview]`          | Установите значение `true`, если CAPTCHA используется в **WebView** для мобильных приложений, чтобы улучшить точность проверки.                                                                             | `boolean`                                                                                         | `false`                     | Опционально |
+| `[invisible]`        | Включает [невидимую CAPTCHA](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha).                                                                                                       | `boolean`                                                                                         | `false`                     | Опционально |
+| `[shieldPosition]`   | Положение [уведомления о обработке данных](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice).                                                                  | `'top-left' \| 'center-left' \| 'bottom-left' \| 'top-right' \| 'center-right' \| 'bottom-right'` | `center-right`              | Опционально |
+| `[hideShield]`       | Скрывает [уведомление о обработке данных](https://yandex.cloud/ru/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice). Вы должны по-прежнему информировать пользователей о обработке данных. | `boolean`                                                                                         | `false`                     | Опционально |
+
+### События (Output Events)
+
+| Событие              | Описание                                                            | Тип                        |
+| -------------------- | ------------------------------------------------------------------- | -------------------------- |
+| `(onCallback)`       | Срабатывает при вызове обратного вызова.                            | `EventEmitter<string>`     |
+| `(onChallengeVisible)`| Срабатывает, когда отображается всплывающее окно проверки CAPTCHA. | `EventEmitter<void>`       |
+| `(onChallengeHidden)`| Срабатывает, когда всплывающее окно проверки CAPTCHA закрывается.   | `EventEmitter<void>`       |
+| `(onNetworkError)`   | Срабатывает при сетевой ошибке во время загрузки или проверки CAPTCHA.| `EventEmitter<void>`       |
+| `(onJavaScriptError)`| Срабатывает при критической ошибке JavaScript во время выполнения CAPTCHA. | `EventEmitter<CaptchaError>`|
+| `(onSuccess)`        | Срабатывает, когда проверка пользователя успешно завершена, возвращая токен проверки. | `EventEmitter<string>`     |
+| `(onTokenExpired)`   | Срабатывает, когда срок действия токена истекает, указывая на необходимость повторной проверки. | `EventEmitter<void>`       |
 
 ## Методы
 
-| Название        | Описание                                                                                                                                                                                 |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `execute()`     | Запускает проверку пользователя. Используется чтобы начать проверку невидимой капчи при каком-то событии, например, при нажатии на кнопку отправки формы аутентификации. |
-| `reset()`       | Сбрасывает состояние виджета до начального.                                                                                                                                |
-| `showError()`   | Устанавливает состояние виджета как ошибочный, и меняет вид виджета на ошибочный                                                                                       |
-| `getResponse()` | Возвращает текущее значение токена                                                                                                                                                       |
+Ниже приведены методы, которые можно вызывать у экземпляра компонента CAPTCHA:
+
+| Метод        | Описание                                                           |
+| ------------ | ------------------------------------------------------------------ |
+| `execute()`  | Запускает проверку пользователя. Полезно для запуска невидимой CAPTCHA при выполнении определенного действия, например, отправке формы. |
+| `reset()`    | Сбрасывает виджет CAPTCHA в исходное состояние, удаляя предыдущие данные или ответы. |
+| `showError()`| Переводит виджет в состояние ошибки, что может быть использовано для указания на проблемы с проверкой или отправкой. |
+| `getResponse()` | Возвращает текущий ответ CAPTCHA (токен). Может быть использован для ручной обработки логики отправки данных. |

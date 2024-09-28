@@ -1,39 +1,69 @@
 # Angular Yandex SmartCaptcha
 
-Adds Yandex SmartCaptcha component to Angular application
+This library adds the Yandex SmartCaptcha component to your Angular application, providing an easy way to integrate CAPTCHA protection into your forms and other user interactions.
 
 ## Usage
+To use Yandex SmartCaptcha in a template, insert the component into your HTML code and provide the necessary properties:
+```html
+<yandex-smart-captcha [clientKey]="yourClientKey"></yandex-smart-captcha>
+```
+Replace yourClientKey with your actual Yandex SmartCaptcha [client-side key](https://yandex.cloud/en/docs/smartcaptcha/concepts/keys).
+
+## Example
 
 ```html
-<yandex-smart-captcha [clientKey]="..."></yandex-smart-captcha>
+<form (ngSubmit)="onSubmit()">
+  <yandex-smart-captcha 
+    [clientKey]="yourClientKey" 
+    [language]="'en'"
+    (onSuccess)="onCaptchaSuccess($event)">
+  </yandex-smart-captcha>
+  <button type="submit">Submit</button>
+</form>
+```
+
+```typescript
+onCaptchaSuccess(token: string) {
+  console.log('CAPTCHA Success:', token);
+  // Handle the token (e.g., send to server for validation)
+}
 ```
 
 ## API
 
-> You must notify users that their data is processed by SmartCaptcha. If you hide the [notice shield](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice), find another way to tell users that SmartCaptcha processes their data.
+> It's important to inform users that their data is processed by SmartCaptcha. If you hide the [notice shield](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice), you must find an alternative way to notify users about the data processing.
 
-| Property               | Description                                                                                                                                     | Type                                                                                              | Default value               | Requirement |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------- | -------- |
-| `[clientKey]`          | [Client-side key](https://yandex.cloud/en/docs/smartcaptcha/concepts/keys)                                                                      | `string`                                                                                          | -                           | Required |
-| `[language]`           | Widget language                                                                                                                                 | `'ru' \| 'en' \| 'be' \| 'kk' \| 'tt' \| 'uk' \| 'uz' \| 'tr'`                                    | `window.navigator.language` | -        |
-| `[test]`               | Running CAPTCHA in test mode. The user will always get a challenge. Use this property for debugging and testing only                            | `boolean`                                                                                         | `false`                     | -        |
-| `[webview]`            | Running CAPTCHA in **WebView**. You can use it to make user response validation more precise when adding CAPTCHA to mobile apps via **WebView** | `boolean`                                                                                         | `false`                     | -        |
-| `[invisible]`          | [Invisible CAPTCHA](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha)                                                       | `boolean`                                                                                         | `false`                     | -        |
-| `[shieldPosition]`     | Position of the [data processing notice section](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice)   | `'top-left' \| 'center-left' \| 'bottom-left' \| 'top-right' \| 'center-right' \| 'bottom-right'` | `center-right`              | -        |
-| `[hideShield]`         | Hide the [data processing notice section](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice)          | `boolean`                                                                                         | `false`                     | -        |
-| `(onCallback)`         | Handler function                                                                                                                                | `EventEmitter<string>`                                                                            | -                           | -        |
-| `(onChallengeVisible)` | Opening the challenge pop-up window                                                                                                             | `EventEmitter<void>`                                                                              | -                           | -        |
-| `(onChallengeHidden)`  | Closing the challenge pop-up window                                                                                                             | `EventEmitter<void>`                                                                              | -                           | -        |
-| `(onNetworkError)`     | A network error occurred                                                                                                                        | `EventEmitter<void>`                                                                              | -                           | -        |
-| `(onJavaScriptError)`  | A critical JS error occurred                                                                                                                    | `EventEmitter<CaptchaError>`                                                                      | -                           | -        |
-| `(onSuccess)`          | Successful user validation                                                                                                                      | `EventEmitter<string>`                                                                            | -                           | -        |
-| `(onTokenExpired)`     | Invalidated verification token                                                                                                                  | `EventEmitter<void>`                                                                              | -                           | -        |
+### Input Properties
+
+| Property           | Description                                                                                                                                                                                                  | Type                                                                                              | Default value               | Requirement |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | --------------------------- | ----------- |
+| `[clientKey]`      | The [client-side key](https://yandex.cloud/en/docs/smartcaptcha/concepts/keys) required to run the CAPTCHA.                                                                                                  | `string`                                                                                          | -                           | Required    |
+| `[language]`       | The language for the widget interface.                                                                                                                                                                       | `'ru' \| 'en' \| 'be' \| 'kk' \| 'tt' \| 'uk' \| 'uz' \| 'tr'`                                    | `window.navigator.language` | Optional    |
+| `[test]`           | If `true`, the CAPTCHA runs in test mode and always shows a challenge. Use this for debugging and testing purposes only.                                                                                     | `boolean`                                                                                         | `false`                     | Optional    |
+| `[webview]`        | Set to `true` when using the CAPTCHA in a **WebView** for mobile apps to improve validation precision.                                                                                                       | `boolean`                                                                                         | `false`                     | Optional    |
+| `[invisible]`      | Enables [Invisible CAPTCHA](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha).                                                                                                           | `boolean`                                                                                         | `false`                     | Optional    |
+| `[shieldPosition]` | Position of the [data processing notice](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice).                                                                       | `'top-left' \| 'center-left' \| 'bottom-left' \| 'top-right' \| 'center-right' \| 'bottom-right'` | `center-right`              | Optional    |
+| `[hideShield]`     | Hide the [data processing notice](https://yandex.cloud/en/docs/smartcaptcha/concepts/invisible-captcha#data-processing-notice). You must still inform users about the data processing elsewhere in your app. | `boolean`                                                                                         | `false`                     | Optional    |
+
+### Output Events
+
+|Event|Description|Type|
+|---|---|---|
+|`(onCallback)`|Triggered on callback.|`EventEmitter<string>`|
+|`(onChallengeVisible)`|Triggered when the CAPTCHA challenge pop-up window is displayed.|`EventEmitter<void>`|
+|`(onChallengeHidden)`|Triggered when the CAPTCHA challenge pop-up window is closed.|`EventEmitter<void>`|
+|`(onNetworkError)`|Triggered when a network error occurs during CAPTCHA loading or verification.|`EventEmitter<void>`|
+|`(onJavaScriptError)`|Triggered when a critical JavaScript error occurs during CAPTCHA execution.|`EventEmitter<CaptchaError>`|
+|`(onSuccess)`|Triggered when user validation is successfully completed, returning the verification token.|`EventEmitter<string>`|
+|`(onTokenExpired)`|Triggered when the verification token expires, indicating that a new validation attempt is needed.|`EventEmitter<void>`|
 
 ## Methods
 
-| Name            | Description                                                                                                                                                                                    |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `execute()`     | The `execute` method starts user validation. It is used to initiate the invisible CAPTCHA test at a certain event, e.g., when the user clicks the **Submit** button of an authentication form. |
-| `reset()`       | The `reset` method resets the widget to the initial state.                                                                                                                                     |
-| `showError()`   | Sets the widget state as erroneous, and changes the widget view to erroneous                                                                                                                   |
-| `getResponse()` | The `getResponse` method returns the current value of the user token.                                                                                                                          |
+The following methods can be called on the CAPTCHA component instance:
+
+|Method|Description|
+|---|---|
+|`execute()`|Starts user validation. Useful for triggering invisible CAPTCHA on a specific event, like submitting a form.|
+|`reset()`|Resets the CAPTCHA widget to its initial state, clearing any previous state or response.|
+|`showError()`|Sets the widget to an error state, which can be used to indicate issues with validation or submission.|
+|`getResponse()`|Returns the current CAPTCHA response token. Can be used to retrieve the token if you need to handle the submission logic manually.|
