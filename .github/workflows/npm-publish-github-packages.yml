@@ -18,6 +18,6 @@ jobs:
           scope: '@flowXM'
           always-auth: true
       - run: yarn
-      - run: yarn publish // for Yarn version 1, use `yarn publish` instead
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
