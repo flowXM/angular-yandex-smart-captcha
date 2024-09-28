@@ -1,8 +1,8 @@
 {
-  "name": "angular-yandex-smart-captcha",
+  "name": "@flowXM/angular-yandex-smart-captcha",
   "version": "1.0.0",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@flowXM"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,6 @@
     "serve-app": "ng serve app",
     "test": "ng test"
   },
-  "private": false,
   "dependencies": {
     "@angular/animations": "^18.2.0",
     "@angular/common": "^18.2.0",
