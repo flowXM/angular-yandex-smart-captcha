@@ -6,7 +6,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "build-lib": "ng build angular-yandex-smart-captcha --watch",
+    "build": "ng build angular-yandex-smart-captcha --configuration production",
     "serve-app": "ng serve app",
     "test": "ng test"
   },
