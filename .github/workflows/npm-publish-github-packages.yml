@@ -11,6 +11,8 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - run: rm -f README.md
+      - run: rm -f README.RU.md
       - run: mv NPM-README.md README.md
       - uses: actions/setup-node@v4
         with:
