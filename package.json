@@ -1,6 +1,10 @@
 {
-  "name": "angular-yandex-smart-captcha",
+  "name": "yandex-smart-captcha",
   "version": "0.0.1",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "build": "ng build angular-yandex-smart-captcha --configuration production",
