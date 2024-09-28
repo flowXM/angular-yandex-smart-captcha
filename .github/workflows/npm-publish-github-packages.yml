@@ -21,6 +21,6 @@ jobs:
           scope: '@flowXM'
           always-auth: true
       - run: yarn
-      - run: yarn publish
+      - run: yarn publish ./projects/angular-yandex-smart-captcha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
