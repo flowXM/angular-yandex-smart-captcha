@@ -1,6 +1,9 @@
 {
   "name": "angular-yandex-smart-captcha",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@flowXM"
+  },
   "scripts": {
     "ng": "ng",
     "build-lib": "ng build angular-yandex-smart-captcha --watch",
