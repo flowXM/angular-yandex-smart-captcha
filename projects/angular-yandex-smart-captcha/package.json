@@ -1,6 +1,9 @@
 {
-  "name": "angular-yandex-smart-captcha",
-  "version": "0.0.1",
+  "name": "@flowXM/angular-yandex-smart-captcha",
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0"
